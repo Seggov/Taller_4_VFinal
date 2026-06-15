@@ -1,10 +1,6 @@
 package modelo;
 
-/**
- * Clase base para representar una carta de forma simple.
- * 
- * Por ahora solo guarda los datos generales para ir avanzando de a poco.
- */
+
 public class Carta {
 	
 	private String nombre;

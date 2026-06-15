@@ -1,8 +1,9 @@
 package controlador;
 
+public class Sistema {
+	
+	
 	// Integramos Singelton
-	public class Sistema {
-		
 		private static Sistema instanciaUnica;
 		
 		private Sistema( ) {}

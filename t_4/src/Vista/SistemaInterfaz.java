@@ -1,80 +1,51 @@
 package Vista;
 
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.net.URL;
+import javax.swing.*;
 
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
+// solo REDIRIQUE Y CREA
 public class SistemaInterfaz {
-	
-	public void creacionInterfazGeneral() {
-		JFrame ventana = new JFrame("Mi Ventana 2");
-		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ventana.setSize(400, 400);
-		
-		ventana.getContentPane().add(createGUI());
-		
-		ventana.setVisible(true); 
-	}
-	
-	private JPanel createGUI() {
-		JPanel mainPanel = new JPanel(new BorderLayout());
-		
-		JPanel botonera = new JPanel();
-		botonera.setLayout(new BoxLayout(botonera, BoxLayout.LINE_AXIS));
-		
-		JPanel panelVacio = new PanelConImagen();
-		
-		JButton button1 = new JButton("Administración");
-		JButton button2 = crearColeccion(panelVacio);
-		
-		botonera.add(button1);
-		botonera.add(button2);		
-		
-		mainPanel.add(botonera, BorderLayout.NORTH);
-		mainPanel.add(panelVacio, BorderLayout.CENTER);
-		
-		return mainPanel;
-	}
 
-	private JButton crearColeccion(JPanel panelVacio) {
-		JButton b = new JButton("Ver Colección");
-		b.addActionListener( e -> {
-			JOptionPane.showMessageDialog(null, "Has presionado Ver Colección");
-		});
-		return b;
-	}
+    // COMPOSICIÓN: usa las clases, no las extiende
+    protected CrearColeccion crearColeccion = new CrearColeccion();
+    protected Administracion administracion = new Administracion();
+	protected ArrayList<String> cartasTotales = new ArrayList<>();
 
 
-	private class PanelConImagen extends JPanel {
-		
-		private Image imagenCarta;	
-		
-		public PanelConImagen() {
-			URL ruta = getClass().getResource("/CartasImagenes/ImagenData/Preterminado.png");
-			
-			if (ruta != null) {
-				this.imagenCarta = new ImageIcon(ruta).getImage();
-			} else {
-				System.out.println("No se encontró la imagen en la ruta.");
-			}
-		}
-		
-		@Override
-		public void paint(Graphics g) {
-			super.paint(g); 
-			
-			
-			if (imagenCarta != null) {
-				g.drawImage(imagenCarta, 0, 0, 200, 280, this);
-			}
-		}
-	}
+    public void creacionInterfazGeneral() {
+        JFrame ventana = new JFrame("Pokemon Coleccion de Cartas");
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.setSize(400, 400);
+        ventana.getContentPane().add(createGUI());
+        ventana.setVisible(true); // Mostrar la ventana
+    }
+
+    private JPanel createGUI() {
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        // # Botones principales 
+        JPanel botonera = new JPanel();
+        botonera.setLayout(new BoxLayout(botonera, BoxLayout.LINE_AXIS));
+        botonera.add(administracion.crearBotonPrincipal());
+        botonera.add(crearColeccion.crearBotonPrincipal());
+
+        // # Sub-opciones de cada boton
+        JPanel opcionesAdmin      = administracion.crearPanelOpciones();
+        JPanel opcionesColeccion  = crearColeccion.crearPanelOpciones();
+
+        // # Panel norte agrupa todo lo de arriba
+        JPanel norte = new JPanel();
+        norte.setLayout(new BoxLayout(norte, BoxLayout.PAGE_AXIS));
+        norte.add(botonera);
+        norte.add(opcionesAdmin);
+        norte.add(opcionesColeccion);
+
+        mainPanel.add(norte, BorderLayout.NORTH);
+        mainPanel.add(new PanelConImagen(), BorderLayout.CENTER);
+
+        return mainPanel;
+    }
+    
 }
