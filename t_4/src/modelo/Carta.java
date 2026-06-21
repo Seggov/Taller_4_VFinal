@@ -1,16 +1,13 @@
 package modelo;
 
-
-public class Carta {
+public abstract class Carta {
 	
-	private String nombre;
-	private int rareza;
-	private String tipo;
+	protected String nombre;
+	protected int rareza;
 	
-	public Carta(String nombre, int rareza, String tipo) {
+	public Carta(String nombre, int rareza) {
 		this.nombre = nombre;
 		this.rareza = rareza;
-		this.tipo = tipo;
 	}
 	
 	public String getNombre() {
@@ -21,8 +18,9 @@ public class Carta {
 		return rareza;
 	}
 	
-	public String getTipo() {
-		return tipo;
-	}
+	// obligamos a LA HIJA A IMPRIMIR UN TEXTO, CADA TEXTO VA SER DIFERENTE
+	public abstract String getTipo();
 
+    // Obligamos a que cada hija sepa calcular su poder
+    public abstract int calcularPoder();
 }

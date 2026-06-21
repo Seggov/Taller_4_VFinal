@@ -4,8 +4,7 @@ import java.awt.*;
 import java.net.URL;
 import javax.swing.*;
 
-// Panel que muestra una imagen de carta predefinida y sirve como espacio para mostrar cartas en el futuro
-private class PanelConImagen extends JPanel {
+public class PanelConImagen extends JPanel {
         private Image imagenCarta;
 		
         public PanelConImagen() {
@@ -18,8 +17,8 @@ private class PanelConImagen extends JPanel {
         }
 
         @Override
-        public void paint(Graphics g) {
-            super.paint(g);
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
             if (imagenCarta != null) {
                 g.drawImage(imagenCarta, 0, 0, 200, 280, this);
             }

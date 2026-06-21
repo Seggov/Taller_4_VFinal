@@ -6,7 +6,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Sistema sistema = Sistema.getInstancia(); // asi creamos UNA SOLA INSTANCIA
+		Sistema sistema = Sistema.getInstancia(); // asi creamos UNA SOLA INSTANCIA DE SISTEMA 	
 		
 		System.out.println("Inicializando Menu...\n"); 
 		

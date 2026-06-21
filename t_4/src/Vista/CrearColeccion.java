@@ -2,10 +2,12 @@ package Vista;
 
 import javax.swing.*;
 
-public class CrearColeccion extends SistemaInterfaz {
+import CartasImagenes.GestorDeCartas;
 
-    private JPanel panelOpciones; // referencia guardada para el toggle
-    private ControladorCartas controladorCartas = new ControladorCartas(); // controlador para manejar la lógica de cartas
+public class CrearColeccion  {
+
+    private JPanel panelOpciones; 
+    private GestorDeCartas controladorCartas = new GestorDeCartas(); // controlador para manejar la lógica de cartas
     // Botón principal que activa/oculta las opciones
     public JButton crearBotonPrincipal() {
         JButton b = new JButton("Ver Colección");
@@ -22,7 +24,9 @@ public class CrearColeccion extends SistemaInterfaz {
         JButton op1 = new JButton("Ver todas");
         JButton op2 = new JButton("Buscar carta");
         JButton op3 = new JButton("Mis favoritas");
-
+        
+        
+        // condicionales DE LAS INSTANCIAS YA CREADAS
         op1.addActionListener(e -> JOptionPane.showMessageDialog(null, "Mostrando todas las cartas"));
         op2.addActionListener(e -> JOptionPane.showMessageDialog(null, "Buscando carta..."));
         op3.addActionListener(e -> JOptionPane.showMessageDialog(null, "Mostrando favoritas"));
