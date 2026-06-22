@@ -1,149 +1,293 @@
-# Taller 4
+# Pokemon — Colección de Cartas
 
-**I Semestre - 2026**
-**ITI - ICCI - ICI**
+Aplicación de escritorio en Java con interfaz gráfica Swing que permite cargar, visualizar y ordenar una colección de cartas Pokémon desde un archivo de texto. El proyecto aplica cuatro patrones de diseño clásicos: **Singleton**, **Factory**, **Strategy** y **Visitor**.
 
-**Docentes:**
-- Alejandro Paolini Godoy
-- Cristhian Rabi Reyes
-- Juan Nilo Iturra
+---
 
-## Contexto:
+## Estructura del proyecto
 
-Sutrostian y POOsandon son dos muy buenos amigos que disfrutan mucho realizar todo tipo de actividades juntos. Últimamente su buen amigo Mateo les ha recomendado sumergirse en el mundo de Pokémon TCG. Emocionados por esta nueva experiencia, han decidido comprarse varios paquetes con sobres y mazos prearmados para poder jugar.
-
-Luego de un tiempo experimentando juntos, se han dado cuenta de que se ha hecho muy difícil mantener su colección organizada. Por lo cual, gracias a su vasta experiencia en Programación Orientada a Objetos, han decidido crear un software con GUI en Java que les permita modificar sus cartas de colección, listarlas y calcular sus respectivas puntuaciones.
-
-Debido al meta actual, solo han comprado sobres de una expansión especial que permite un juego más amigable.
-
-## Archivos
-
-### `Sobres.txt`
-
-El siguiente archivo contiene los datos de las cartas sacadas, usando el formato:
-
-`NombreCarta;Rareza;Tipo;...`
-
-Dependiendo del Tipo de carta existen diferentes atributos:
-
-* Tipo: ***Pokemon*** -> `Daño;CantEnergias`
-* Tipo: ***Item*** -> `Bonificacion`
-* Tipo: ***Supporter*** -> `EfectosPorTurno`
-* Tipo: ***Energy*** -> `Elemento`
-
-Ejemplo:
-
-```texto
-Mega Mawile-Ex;5;Pokemon;260;3
-Premium Power Pro;2;Item;30
-Lillie's Determination;2;Supporter;3
-Basic Energy;1;Energy;Fight
+```
+t_4/
+├── src/
+│   ├── Main/
+│   │   └── Main.java                      # Punto de entrada
+│   ├── controlador/
+│   │   ├── Sistema.java                   # Núcleo del programa (Singleton)
+│   │   └── Contexto.java                  # Memoria central de cartas
+│   ├── Factory/
+│   │   └── CartaFactory.java              # Creación de cartas (Factory)
+│   ├── modelo/
+│   │   ├── Carta.java                     # Clase base abstracta
+│   │   ├── Pokemon.java
+│   │   ├── Item.java
+│   │   ├── Supporter.java
+│   │   └── Energy.java
+│   ├── Strategy/
+│   │   ├── OrdenamientoStrategy.java      # Interfaz Strategy
+│   │   ├── OrdenarPorNombre.java
+│   │   ├── OrdenarPorPoder.java
+│   │   └── OrdenarPorRareza.java
+│   ├── visitor/
+│   │   ├── CartaVisitor.java              # Interfaz Visitor
+│   │   └── PoderVisitor.java              # Cálculo de poder
+│   ├── Vista/
+│   │   ├── SistemaInterfaz.java           # Ventana principal
+│   │   ├── Administracion.java            # Panel de administración
+│   │   ├── CrearColeccion.java            # Panel de visualización
+│   │   └── PanelConImagen.java            # Panel con imagen de carta
+│   └── CartasImagenes/
+│       └── ImagenData/                    # Imágenes .png de cada carta
+├── Sobres.txt                             # Base de datos de cartas
+└── README.md
 ```
 
-## Requerimientos
+---
 
-Se debe crear una GUI totalmente interactiva que tenga las siguientes funcionalidades:
+## Cómo ejecutar
 
-## Administración (Pestaña 1)
-
-* Agregar Carta
-* Eliminar Carta
-* Modificar Carta
-
-## Ver Colección (Pestaña 2)
-
-* Ordenar por
-
-## Aclaraciones
-
-* Al agregar una carta, la ruta de su imagen será su {`nombreCarta`}.png/jpg/etc.
-* En caso de que no exista una imagen, se deberá tener una por defecto (a elección del estudiante).
-* Las imágenes de las cartas del .txt deben ser buscadas y agregadas por los estudiantes manualmente.
-* Al eliminar una carta no es necesario eliminar su imagen del proyecto, solo el objeto con sus datos.
-* Al modificar una carta se pueden modificar solamente sus atributos adicionales (relacionados al tipo de carta).
-* Al ordenar las cartas y mostrarlas debe haber tres opciones de sort:
-    1) Ordenar por Rareza.
-    2) Ordenar por Nombre.
-    3) Ordenar por Poder.
-* Mientras mayor sea la rareza de una carta, mejor es.
-* Pueden existir cartas repetidas.
-* Al hacerle "clic" a una carta en colección, debe abrir una visualización ampliada de esta, mostrando sus atributos y su poder calculado (junto con su respectiva imagen).
-* Debe usar los patrones `Singleton` `Factory` `Visitor` `Strategy`.
-* Debe documentar con `javadoc`.
-* Para calcular el `poder` de cada carta debe usar:
-    * ***Pokemon*** -> `(daño/cantEnergias)*100`.
-    * ***Item*** -> `bonificacion*20`.
-    * ***Supporter*** -> `EfectosPorTurno*50`.
-    * ***Energy*** -> `1` -> Por defecto.
-
-## Consideraciones
-
-1) Se engloban todas las consideraciones redactadas en el Readme de los talleres <a href="../Readme.md"> (Clic aquí para ver)</a>.
-2) Se podrán utilizar todas las librerías vistas en clase.
-
-***En caso de necesitar alguna librería adicional, consultar con tiempo.***
-
-3) Se deben entregar el Modelo de Dominio y el Diagrama de Clases en la raíz del repositorio ***EN FORMATO PDF***.
-4) Se debe utilizar POO, Arquitectura (separar el main y el sistema), Herencia, Interfaces y GUI.
-
-## Fechas
-Inicio -> 09/06/2026
-
-Fecha límite -> 03/07/2026
-
-## Contactos
-* nicolas.rojas11@alumnos.ucn.cl
-* [Grupo de WhatsApp](https://chat.whatsapp.com/GGkRnviIyRfDj24kXZeGpu?mode=gi_t)
-
-## Pauta de evaluación
-
-**Puntaje Total Máximo:** 140 puntos
+1. Abrir el proyecto en **Eclipse IDE**
+2. Ir a **Project → Clean** para forzar una compilación limpia
+3. Verificar que `Sobres.txt` esté en la **raíz del proyecto** (mismo nivel que `src/`)
+4. Ejecutar `Main.java` como aplicación Java
 
 ---
 
-### 1. Persistencia de Datos y Archivos (15 puntos)
-* **[7 pts] Lectura inicial:** Carga correctamente los datos de `Sobres.txt` al iniciar el programa. Procesa adecuadamente cada línea y los distintos atributos según el tipo de carta (`Pokemon`, `Item`, `Supporter`, `Energy`) sin errores de parseo.
-* **[4 pts] Actualización de Archivos:** Las operaciones de agregar, modificar o eliminar (CRUD) se reflejan correctamente en el archivo `.txt`. Los cambios persisten tras cerrar la aplicación.
-* **[4 pts] Formato de Salida:** Al sobrescribir el archivo, se mantiene estrictamente el formato original (`NombreCarta;Rareza;Tipo;...`), respetando los atributos propios de cada tipo y asegurando la integridad de los datos para futuras ejecuciones.
+## Formato de Sobres.txt
 
-### 2. Diseño de Software y POO (15 puntos)
-* **[5 pts] Herencia e Interfaces:** Implementa una estructura de herencia lógica con una clase base (o abstracta) para `Carta` y subclases específicas por tipo. Utiliza interfaces para definir comportamientos requeridos.
-* **[5 pts] Modelado de Clases:** Demuestra un uso correcto de la abstracción y el encapsulamiento (atributos privados y métodos de acceso). Las clases son cohesivas y representan fielmente las entidades del problema.
-* **[5 pts] Arquitectura y Colecciones:** El código separa la lógica del sistema del punto de entrada (`Main`). Utiliza colecciones dinámicas (`ArrayList` o `LinkedList`) para gestionar la colección de cartas, contemplando la existencia de cartas repetidas.
+Cada línea representa una carta con campos separados por `;`:
 
-### 3. Patrones de Diseño (32 puntos)
+```
+# Pokemon: Nombre;Rareza;Pokemon;Daño;CantEnergias
+Mega Charizard-Ex;5;Pokemon;280;3
 
-> Los cuatro patrones deben estar implementados de forma correcta, pertinente y justificada dentro de la arquitectura. No se otorga puntaje a patrones forzados o mal aplicados.
+# Item: Nombre;Rareza;Item;Bonificacion
+Potion;1;Item;10
 
-* **[8 pts] Singleton:** Implementa correctamente el patrón Singleton.
-* **[8 pts] Factory:** Implementa correctamente el patrón Factory.
-* **[8 pts] Visitor:** Implementa correctamente el patrón Visitor.
-* **[8 pts] Strategy:** Implementa correctamente el patrón Strategy.
+# Supporter: Nombre;Rareza;Supporter;EfectosPorTurno
+Professor's Research;4;Supporter;5
 
-### 4. Lógica de Negocio y Requerimientos (25 puntos)
-* **[10 pts] Administración (Pestaña 1):** Implementa funcionalmente Agregar, Eliminar y Modificar Carta. Al agregar, asocia la ruta de imagen `{nombreCarta}`. Al eliminar, remueve únicamente el objeto y sus datos (no la imagen). Al modificar, permite cambiar solo los atributos adicionales propios del tipo de carta.
-* **[10 pts] Cálculo de Puntuaciones:** Implementa con exactitud las fórmulas de poder para cada tipo de carta:
-    * **Pokemon:** `(daño / cantEnergias) * 100`
-    * **Item:** `bonificacion * 20`
-    * **Supporter:** `efectosPorTurno * 50`
-    * **Energy:** `1` (por defecto)
-* **[5 pts] Ordenamiento (Pestaña 2):** Implementa correctamente las tres opciones de sort sobre la colección: por Rareza, por Nombre y por Poder (considerando que mayor rareza es mejor).
+# Energy: Nombre;Rareza;Energy;Elemento
+Fire Energy;1;Energy;Fire
+```
 
-### 5. Interfaz Gráfica (GUI) (25 puntos)
-* **[10 pts] Interactividad y Estructura:** La GUI es totalmente interactiva, fluida y organiza las funcionalidades en las dos pestañas requeridas (Administración y Ver Colección), con una navegación clara entre ellas.
-* **[8 pts] Manejo de Imágenes:** Muestra la imagen de cada carta según su ruta `{nombreCarta}` y utiliza una imagen por defecto cuando esta no existe, sin romper la interfaz.
-* **[7 pts] Visualización Ampliada:** Al hacer clic sobre una carta de la colección, abre una vista ampliada con sus atributos, su poder calculado y su respectiva imagen.
-
-### 6. Control de Errores, Calidad y Documentación (10 puntos)
-* **[4 pts] Validación de Entradas:** El programa utiliza validaciones (ej. `try-catch` o validación de campos) para evitar caídas por ingresos de datos incorrectos en los formularios y menús.
-* **[3 pts] Calidad de Código:** Respeta las convenciones de Java (CamelCase), mantiene una indentación correcta y utiliza nombres de variables descriptivos.
-* **[3 pts] Documentación javadoc:** Documenta correctamente clases y métodos con `javadoc`.
-
-### 7. Diagramas y Entregables (8 puntos)
-* **[4 pts] Diagrama de Clases:** Entrega un PDF en la raíz que representa la arquitectura del código, incluyendo relaciones, atributos y métodos.
-* **[4 pts] Modelo de Dominio:** Entrega un PDF con la abstracción conceptual del problema, diferenciándose claramente del diagrama técnico de clases.
-
-### 8. Uso de GitHub y Repositorio (10 puntos)
-* **[10 pts] Gestión de Versiones:** El repositorio está bien estructurado, cuenta con commits frecuentes y significativos, y sigue las consideraciones generales de entrega.
+La rareza va de 1 (común) a 5 (legendaria).
 
 ---
+
+## Patrones de diseño aplicados
+
+### 1. Singleton — `controlador/Sistema.java`
+
+**¿Qué problema resuelve?**
+Garantiza que exista una única instancia de `Sistema` en toda la aplicación. Sin este patrón, cada parte del programa podría crear su propio `Sistema` con su propio `Contexto`, resultando en colecciones de cartas separadas e inconsistentes.
+
+**¿Dónde está?**
+
+```java
+// Sistema.java
+private static Sistema instanciaUnica;
+
+private Sistema() { }   // Constructor privado: nadie puede hacer new Sistema()
+
+public static Sistema getInstancia() {
+    if (instanciaUnica == null) {
+        instanciaUnica = new Sistema();
+    }
+    return instanciaUnica;
+}
+```
+
+**¿Quién lo usa?**
+- `Main.java` llama `Sistema.getInstancia()` para arrancar el programa
+- `CrearColeccion.java` llama `Sistema.getInstancia().ordenarColeccion(...)` desde la GUI para pedir las cartas ordenadas, accediendo siempre al mismo `Contexto`
+
+---
+
+### 2. Factory — `Factory/CartaFactory.java`
+
+**¿Qué problema resuelve?**
+Centraliza la creación de objetos `Carta`. `Sistema` solo lee líneas de texto; no necesita saber cómo se construye cada tipo concreto de carta. Esa responsabilidad queda completamente aislada en `CartaFactory`. Si se agrega un nuevo tipo de carta, solo se modifica la Factory, no el sistema principal.
+
+**¿Dónde está?**
+
+```java
+// CartaFactory.java
+public Carta crearCartaDesdeLinea(String linea) {
+    String[] datos = linea.split(";");
+    String nombre = datos[0];
+    int rareza   = Integer.parseInt(datos[1]);
+    String tipo  = datos[2];
+
+    if (tipo.equals("Pokemon")   && datos.length >= 5) return new Pokemon(...);
+    if (tipo.equals("Item")      && datos.length >= 4) return new Item(...);
+    if (tipo.equals("Supporter") && datos.length >= 4) return new Supporter(...);
+    if (tipo.equals("Energy")    && datos.length >= 4) return new Energy(...);
+
+    return null;  // tipo desconocido: la línea se ignora
+}
+```
+
+**¿Quién lo usa?**
+
+```java
+// Sistema.java — cargarCartasDesdeTxt()
+Carta carta = cartaFactory.crearCartaDesdeLinea(linea);
+// Sistema no sabe ni le importa si la carta es Pokemon, Item, etc.
+```
+
+---
+
+### 3. Strategy — `Strategy/OrdenamientoStrategy.java`
+
+**¿Qué problema resuelve?**
+Permite cambiar el criterio de ordenamiento de la colección en tiempo de ejecución, sin modificar `Sistema`. Cada botón de la GUI inyecta una estrategia diferente; `Sistema.ordenarColeccion()` siempre recibe la misma interfaz y ejecuta el orden que corresponda.
+
+**¿Dónde está la interfaz?**
+
+```java
+// OrdenamientoStrategy.java
+public interface OrdenamientoStrategy {
+    ArrayList<Carta> ordenar(ArrayList<Carta> cartas);
+}
+```
+
+**Las tres estrategias concretas:**
+
+| Clase | Criterio | Orden |
+|---|---|---|
+| `OrdenarPorNombre` | `Carta::getNombre` | Alfabético A → Z |
+| `OrdenarPorRareza` | `Carta::getRareza` | Mayor rareza primero |
+| `OrdenarPorPoder` | `Carta::calcularPoder` | Mayor poder primero |
+
+Cada una trabaja sobre una **copia** de la lista para no modificar la colección original en `Contexto`.
+
+**¿Quién lo usa?**
+
+```java
+// Sistema.java
+public ArrayList<Carta> ordenarColeccion(OrdenamientoStrategy estrategia) {
+    return estrategia.ordenar(contexto.getCartas());
+    // Sistema no sabe qué estrategia recibe; simplemente la ejecuta
+}
+
+// CrearColeccion.java — los botones de la GUI inyectan la estrategia
+op1.addActionListener(e -> mostrarColeccion(new OrdenarPorNombre(), "..."));
+op2.addActionListener(e -> mostrarColeccion(new OrdenarPorRareza(), "..."));
+op3.addActionListener(e -> mostrarColeccion(new OrdenarPorPoder(),  "..."));
+```
+
+---
+
+### 4. Visitor — `visitor/CartaVisitor.java` y `visitor/PoderVisitor.java`
+
+**¿Qué problema resuelve?**
+Separa el algoritmo de cálculo de poder del modelo de datos. Sin Visitor, habría que poner la fórmula dentro de cada subclase (`Pokemon`, `Item`, etc.) o llenar `Sistema` de `instanceof`. Con Visitor, la lógica de cálculo queda en una sola clase (`PoderVisitor`) y se puede agregar nuevas operaciones sobre las cartas sin tocar el modelo.
+
+**¿Dónde está la interfaz?**
+
+```java
+// CartaVisitor.java
+public interface CartaVisitor {
+    void visitar(Pokemon  pokemon);
+    void visitar(Item     item);
+    void visitar(Supporter supporter);
+    void visitar(Energy   energy);
+}
+```
+
+**El Visitor concreto y sus fórmulas:**
+
+```java
+// PoderVisitor.java
+public void visitar(Pokemon pokemon) {
+    // Fórmula: (daño / energías) × 100
+    poder = (pokemon.getDano() / pokemon.getCantEnergias()) * 100;
+}
+public void visitar(Item item) {
+    // Fórmula: bonificación × 20
+    poder = item.getBonificacion() * 20;
+}
+public void visitar(Supporter supporter) {
+    // Fórmula: efectosPorTurno × 50
+    poder = supporter.getEfectosPorTurno() * 50;
+}
+public void visitar(Energy energy) {
+    poder = 1;  // Las energías tienen poder fijo
+}
+```
+
+**¿Cómo se conecta con el modelo?**
+
+Cada subclase de `Carta` implementa `aceptar()` llamando al método correcto del Visitor:
+
+```java
+// Pokemon.java
+public void aceptar(CartaVisitor visitor) { visitor.visitar(this); }
+
+// Item.java
+public void aceptar(CartaVisitor visitor) { visitor.visitar(this); }
+// ... igual para Supporter y Energy
+```
+
+`Carta` dispara el ciclo completo desde `calcularPoder()`:
+
+```java
+// Carta.java
+public int calcularPoder() {
+    PoderVisitor visitor = new PoderVisitor();
+    aceptar(visitor);          // la carta le dice al visitor quién es
+    return visitor.getPoder(); // el visitor devuelve el poder calculado
+}
+```
+
+**¿Quién lo usa?**
+- `OrdenarPorPoder` llama `carta.calcularPoder()` para ordenar
+- `CrearColeccion` llama `carta.calcularPoder()` para mostrarlo en la GUI
+
+---
+
+## Flujo de ejecución
+
+```
+Main.main()
+  └── Sistema.getInstancia()          [Singleton: una sola instancia]
+        └── iniciarSistema()
+              ├── cargarCartasDesdeTxt()
+              │     └── Scanner lee Sobres.txt línea por línea
+              │           └── CartaFactory.crearCartaDesdeLinea()   [Factory]
+              │                 └── new Pokemon / Item / Supporter / Energy
+              │                       └── Contexto.agregarCarta()
+              └── SistemaInterfaz.creacionInterfazGeneral()
+                    └── GUI visible al usuario
+
+[El usuario presiona un botón de orden]
+  └── CrearColeccion.mostrarColeccion(new OrdenarPorNombre())    [Strategy]
+        └── Sistema.ordenarColeccion(estrategia)
+              └── estrategia.ordenar(contexto.getCartas())
+                    └── carta.calcularPoder()                    [Visitor]
+                          └── PoderVisitor.visitar(carta)
+                                └── fórmula según tipo de carta
+```
+
+---
+
+## Tecnologías utilizadas
+
+- **Java 21** (compatible con Java 17+)
+- **Swing** para la interfaz gráfica
+- **Eclipse IDE** como entorno de desarrollo
+- Lectura de archivo con `java.util.Scanner`
+- Sin dependencias externas
+
+---
+
+## Nota sobre las imágenes
+
+Las imágenes de las cartas se cargan desde `src/CartasImagenes/ImagenData/`. El nombre del archivo debe coincidir exactamente con el nombre de la carta en `Sobres.txt`, reemplazando espacios por guiones bajos:
+
+```
+"Mega Charizard-Ex"  →  Mega_Charizard-Ex.png
+"Fire Energy"        →  Fire_Energy.png
+```
+
+Si la imagen de una carta no existe, el sistema busca `Predeterminado.png` como imagen de respaldo.
